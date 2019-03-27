@@ -1,0 +1,7 @@
+<div *ngFor="let item of books">
+
+ <app-book-item-details *ngIf="item !== currentBook"  [bookItem]="item" (openEditbookItem)="openEdit($event)" (deleteBookItem)="deleteItem($event)"></app-book-item-details>
+ <app-book-item-edit *ngIf="item === currentBook" [curretBookEdit]="currentBook" (cancelEditBookItem)="cancelEdit($event)" (saveEditBookItem)="saveBookItem($event)" ></app-book-item-edit>
+
+</div>
+
