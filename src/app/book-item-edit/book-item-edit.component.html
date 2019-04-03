@@ -1,5 +1,5 @@
-<input id="author" type="text" [value]="curretBookEdit.author" (change)="onInputChange($event)" >
-<input id="title" type="text" [value]="curretBookEdit.title" (change)="onInputChange($event)">
-<input id="date" type="date" [value]="curretBookEdit.date" (change)="onInputChange($event)">
-<input type="button" (click)="cancelEdit(curretBookEdit)" value="Cancel edit" />
-<input type="button" (click)="saveItem()" value="Save edit" />
+<input type="text" [(ngModel)]="curretBookInput.author" >
+<input type="text" [(ngModel)]="curretBookInput.title" >
+<input type="date" [(ngModel)]="curretBookInput.date" >
+<input type="button" (click)="cancelBook()" value="Cancel" />
+<input type="button" (click)="updateBook()" value="Save edit" />

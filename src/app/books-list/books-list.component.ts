@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../book';
+import { BooksService } from '../services/books.service';
 
 @Component({
   selector: 'app-books-list',
@@ -11,25 +12,8 @@ export class BooksListComponent implements OnInit {
   public books: Book[];
   public currentBook : Book;
 
-  constructor() {
-    this.books =  [
-      {
-        author: 'Suzanne Collins',
-        date: new Date('4/5/1813'),
-        title: 'the Hunger Games',
-      },
-      {
-        author: 'jane Austen',
-        date: new Date('4/5/1981'),
-        title: 'pride and Prejudice',
-      },
-      {
-        author: 'George Orwell',
-        date: new Date('4/5/1991'),
-        title: 'animal Farm',
-      }
-      ];
-
+  constructor(private s: BooksService) {
+    this.books = s.getBooks();
    }
 
   ngOnInit() {
@@ -44,19 +28,13 @@ export class BooksListComponent implements OnInit {
       this.currentBook = null;
     }
 
-    saveBookItem(b:Book)
+    updateBook(b:Book)
     {
-      let bookInList :Book = this.books.find(x => x === b);
-      bookInList  = b;
       this.currentBook = null;
     }
 
     deleteItem(b:Book)
     {
-      const index = this.books.indexOf(b, 0);
-      if (index > -1) {
-        this.books.splice(index, 1);
-      }
-
+      this.s.deleteBook(b);
     }
 }

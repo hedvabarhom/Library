@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Book } from '../book';
+import { BooksService } from '../services/books.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-book-item-edit',
@@ -8,29 +10,36 @@ import { Book } from '../book';
 })
 export class BookItemEditComponent implements OnInit {
 
-  @Input() curretBookEdit: Book;
-  @Output() cancelEditBookItem: EventEmitter<Book> = new EventEmitter();
-  @Output() saveEditBookItem: EventEmitter<Book> = new EventEmitter();
+  @Input() curretBookInput: Book;
+  @Output() cancelBookOutput: EventEmitter<Book> = new EventEmitter();
+  @Output() updateBookOutput: EventEmitter<Book> = new EventEmitter();
+  isAdd:Boolean = false;
 
-  constructor() { }
+  constructor(private s:BooksService) { }
 
   ngOnInit() {
-  }
 
-  cancelEdit(b:Book)
+    if (!this.curretBookInput) {
+  this.isAdd = true;
+  this.curretBookInput = new Book();
+}
+}
+
+
+  cancelBook()
   {
-    this.cancelEditBookItem.emit(b);
+    this.cancelBookOutput.emit(this.curretBookInput);
   }
 
-  saveItem()
+  updateBook()
   {
-    this.saveEditBookItem.emit(this.curretBookEdit);
+    if (this.isAdd){
+    this.s.addBook(this.curretBookInput);
+
+  } else{
+    this.s.updateBook(this.curretBookInput);
+    this.updateBookOutput.emit(this.curretBookInput);
+   }
   }
 
-  onInputChange(e)
-  {
-    let name = e.currentTarget.id;
-    this.curretBookEdit[name] = e.currentTarget.value;
-
-  }
 }
